@@ -1,14 +1,14 @@
 {
   "name": "jquery.scrollviews.js",
   "version": "1.0.0",
-  "description": "Flexible scrolling-based fullscreen views.",
-  "main": "dist/jquery.scrollviews.js",
+  "description": "Flexible scrolling-based fullscreen views and subviews.",
+  "main": "jquery.scrollviews.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:alvarotrigo/fullPage.js.git"
+    "url": "git@github.com:TheTalisman/jQuery_ScrollViews.git"
   },
   "keywords": [
     "jquery",
@@ -21,11 +21,11 @@
     "one_page",
     "sliding",
     "snap",
-    "scroll"
+	"scroll",
+	"views"
   ],
   "files": [
     "vendors",
-    "dist",
     "package.json",
     "README.md"
   ],
@@ -33,14 +33,13 @@
     "jquery": ">=1.6.0"
   },
   "authors": [
-    "Tom Keen http://elladoria.com",
-    "Alvaro Trigo https://github.com/alvarotrigo"
+    "Tom Keen http://elladoria.com"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alvarotrigo/fullPage.js/issues"
+    "url": "https://github.com/TheTalisman/jQuery_ScrollViews/issues"
   },
-  "homepage": "https://github.com/alvarotrigo/fullPage.js",
+  "homepage": "https://github.com/TheTalisman/jQuery_ScrollViews",
   "namespace": "$.fn.scrollviews",
   "devDependencies": {
   }

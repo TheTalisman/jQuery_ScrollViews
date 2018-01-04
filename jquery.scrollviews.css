@@ -1,0 +1,232 @@
+/*!
+ * jQuery_ScrollViewsJS 1.0
+ * based on a fork of https://github.com/alvarotrigo/fullPage.js
+ * @license MIT licensed
+ *
+ * Copyright (C) 2018 Tom Keen
+ */
+
+html.svs-enabled,
+.svs-enabled body {
+    margin: 0;
+    padding: 0;
+    overflow:hidden;
+
+    /*Avoid flicker on slides transitions for mobile phones #336 */
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+.svs-section {
+    position: relative;
+    -webkit-box-sizing: border-box; /* Safari<=5 Android<=3 */
+    -moz-box-sizing: border-box; /* <=28 */
+    box-sizing: border-box;
+}
+.svs-slide {
+    float: left;
+}
+.svs-slide, .svs-slidesContainer {
+    height: 100%;
+    display: block;
+}
+.svs-slides {
+    z-index:1;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    -webkit-transition: all 0.3s ease-out; /* Safari<=6 Android<=4.3 */
+    transition: all 0.3s ease-out;
+}
+.svs-section.svs-table, .svs-slide.svs-table {
+    display: table;
+    table-layout:fixed;
+    width: 100%;
+}
+.svs-tableCell {
+	position: relative;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+.svs-subview {
+	position: absolute;
+	display: table-cell;
+	vertical-align: middle;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+}
+.svs-slidesContainer {
+    float: left;
+    position: relative;
+}
+.svs-controlArrow {
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    margin-top: -38px;
+    -webkit-transform: translate3d(0,0,0);
+    -ms-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+.svs-controlArrow.svs-prev {
+    left: 15px;
+    width: 0;
+    border-width: 38.5px 34px 38.5px 0;
+    border-color: transparent #fff transparent transparent;
+}
+.svs-controlArrow.svs-next {
+    right: 15px;
+    border-width: 38.5px 0 38.5px 34px;
+    border-color: transparent transparent transparent #fff;
+}
+.svs-scrollable {
+    overflow: hidden;
+    position: relative;
+}
+.svs-scroller{
+    overflow: hidden;
+}
+.iScrollIndicator{
+    border: 0 !important;
+}
+.svs-notransition {
+    -webkit-transition: none !important;
+    transition: none !important;
+}
+#svs-nav {
+    position: fixed;
+    z-index: 100;
+    margin-top: -32px;
+    top: 50%;
+    opacity: 1;
+    -webkit-transform: translate3d(0,0,0);
+}
+#svs-nav.right {
+    right: 17px;
+}
+#svs-nav.left {
+    left: 17px;
+}
+.svs-slidesNav{
+    position: absolute;
+    z-index: 4;
+    opacity: 1;
+    -webkit-transform: translate3d(0,0,0);
+    -ms-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    left: 0 !important;
+    right: 0;
+    margin: 0 auto !important;
+}
+.svs-slidesNav.bottom {
+    bottom: 17px;
+}
+.svs-slidesNav.top {
+    top: 17px;
+}
+#svs-nav ul,
+.svs-slidesNav ul {
+  margin: 0;
+  padding: 0;
+}
+#svs-nav ul li,
+.svs-slidesNav ul li {
+    display: block;
+    width: 14px;
+    height: 13px;
+    margin: 7px;
+    position:relative;
+}
+.svs-slidesNav ul li {
+    display: inline-block;
+}
+#svs-nav ul li a,
+.svs-slidesNav ul li a {
+    display: block;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    text-decoration: none;
+}
+#svs-nav ul li a.active span,
+.svs-slidesNav ul li a.active span,
+#svs-nav ul li:hover a.active span,
+.svs-slidesNav ul li:hover a.active span{
+    height: 12px;
+    width: 12px;
+    margin: -6px 0 0 -6px;
+    border-radius: 100%;
+ }
+#svs-nav ul li a span,
+.svs-slidesNav ul li a span {
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+    height: 4px;
+    width: 4px;
+    border: 0;
+    background: #333;
+    left: 50%;
+    top: 50%;
+    margin: -2px 0 0 -2px;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+#svs-nav ul li:hover a span,
+.svs-slidesNav ul li:hover a span{
+    width: 10px;
+    height: 10px;
+    margin: -5px 0px 0px -5px;
+}
+#svs-nav ul li .svs-tooltip {
+    position: absolute;
+    top: -2px;
+    color: #fff;
+    font-size: 14px;
+    font-family: arial, helvetica, sans-serif;
+    white-space: nowrap;
+    max-width: 220px;
+    overflow: hidden;
+    display: block;
+    opacity: 0;
+    width: 0;
+    cursor: pointer;
+}
+#svs-nav ul li:hover .svs-tooltip,
+#svs-nav.svs-show-active a.active + .svs-tooltip {
+    -webkit-transition: opacity 0.2s ease-in;
+    transition: opacity 0.2s ease-in;
+    width: auto;
+    opacity: 1;
+}
+#svs-nav ul li .svs-tooltip.right {
+    right: 20px;
+}
+#svs-nav ul li .svs-tooltip.left {
+    left: 20px;
+}
+.svs-auto-height.svs-section,
+.svs-auto-height .svs-slide,
+.svs-auto-height .svs-tableCell{
+    height: auto !important;
+}
+
+.svs-responsive .svs-auto-height-responsive.svs-section,
+.svs-responsive .svs-auto-height-responsive .svs-slide,
+.svs-responsive .svs-auto-height-responsive .svs-tableCell {
+    height: auto !important;
+}

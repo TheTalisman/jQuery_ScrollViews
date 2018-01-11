@@ -32,6 +32,7 @@
 	var NO_TRANSITION = 'svs-notransition';
 	var DESTROYED = 'svs-destroyed';
 	var ENABLED = 'svs-enabled';
+	var SVS_ACTIVE = 'svs-active';				// Added to body when a document is running under svs
 	var VIEWING_PREFIX = 'svs-viewing';
 	var ACTIVE = 'active';
 	var ACTIVE_SEL = '.' + ACTIVE;
@@ -376,13 +377,13 @@
 
 			var subViews = $(SECTION_ACTIVE_SEL).children(TABLE_CELL_SEL).children(SUBVIEW_SEL);
 			if (subViews.length > 0) {
-				console.log("Active Section HAS SubViews");
+				//console.log("Active Section HAS SubViews");
 				var activeSubView = $(SECTION_ACTIVE_SEL).children(TABLE_CELL_SEL).children(SUBVIEW_ACTIVE_SEL);
 				var prevSubView = activeSubView.prev();
-				console.log("Active SubView");
-				console.log(activeSubView);
-				console.log("Previous SubView");
-				console.log(prevSubView);
+				//console.log("Active SubView");
+				//console.log(activeSubView);
+				//console.log("Previous SubView");
+				//console.log(prevSubView);
 
 				if (prevSubView.length === 1) {
 					// Delay Further Scrolling for a bit
@@ -405,7 +406,7 @@
 			if (prev.length) {
 				var prevSubViews = $(SECTION_ACTIVE_SEL).prev(SECTION_SEL).children(TABLE_CELL_SEL).children(SUBVIEW_SEL);
 				if (prevSubViews.length > 0) {
-					console.log("Previous Section HAS SubViews");
+					//console.log("Previous Section HAS SubViews");
 					var lastSubview = prevSubViews.last();
 					lastSubview.addClass(ACTIVE);
 				}
@@ -421,13 +422,13 @@
 
 			var subViews = $(SECTION_ACTIVE_SEL).children(TABLE_CELL_SEL).children(SUBVIEW_SEL);
 			if (subViews.length > 0) {
-				console.log("Active Section HAS SubViews");
+				//console.log("Active Section HAS SubViews");
 				var activeSubView = $(SECTION_ACTIVE_SEL).children(TABLE_CELL_SEL).children(SUBVIEW_ACTIVE_SEL);
 				var nextSubView = activeSubView.next();
-				console.log("Active SubView");
-				console.log(activeSubView);
-				console.log("Next SubView");
-				console.log(nextSubView);
+				//console.log("Active SubView");
+				//console.log(activeSubView);
+				//console.log("Next SubView");
+				//console.log(nextSubView);
 
 				if (nextSubView.length === 1) {
 					// Delay Further Scrolling for a bit
@@ -446,11 +447,11 @@
 				(options.loopBottom || options.continuousVertical)) {
 				next = $(SECTION_SEL).first();
 			}
-			
+
 			if (next.length) {
 				var nextSubViews = $(SECTION_ACTIVE_SEL).next(SECTION_SEL).children(TABLE_CELL_SEL).children(SUBVIEW_SEL);
 				if (nextSubViews.length > 0) {
-					console.log("Next Section HAS SubViews");
+					//console.log("Next Section HAS SubViews");
 					var firstSubview = nextSubViews.first();
 					firstSubview.addClass(ACTIVE);
 				}
@@ -1534,7 +1535,7 @@
 							/* Hack!
 							The timeout prevents setting the most dominant section in the viewport as "active" when the user
 							scrolled to a smaller section by using the mousewheel (auto scrolling) rather than draging the scroll bar.
-	
+
 							When using scrollBar:true It seems like the scroll events still getting propagated even after the scrolling animation has finished.
 							*/
 							setTimeout(function () {
@@ -2457,6 +2458,8 @@
         * Sets a class for the body of the page depending on the active section / slide
         */
 		function setBodyClass() {
+			$body.addClass(SVS_ACTIVE); // Add Active Body Class to Note that ScrollViews is Active on the Document
+
 			var section = $(SECTION_ACTIVE_SEL);
 			var slide = section.find(SLIDE_ACTIVE_SEL);
 
@@ -2799,8 +2802,9 @@
 			// remove .svs-enabled class
 			$('html').removeClass(ENABLED);
 
-			// remove .svs-responsive class
+			// remove .svs-responsive and svs-active classes
 			$body.removeClass(RESPONSIVE);
+			$body.removeClass(SVS_ACTIVE);
 
 			// remove all of the .svs-viewing- classes
 			$.each($body.get(0).className.split(/\s+/), function (index, className) {

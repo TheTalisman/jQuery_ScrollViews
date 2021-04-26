@@ -217,6 +217,19 @@
 		};
 		var scrollBarHandler;
 
+
+		// Check Browser for Passive Event Listeners Support
+		var UsePassiveEventObject = false;
+		try {
+			var opts = Object.defineProperty({}, 'passive', {
+				get: function() {
+					UsePassiveEventObject = true;
+				}
+			});
+			window.addEventListener("aPassiveEventHandler", null, opts);
+			window.removeEventListener("aPassiveEventHandler", null, opts);
+		} catch (e) { console.log( "Passive Event Listeners Not Supported" ); }
+
 		//timeouts
 		var resizeId;
 		var afterSectionLoadsId;
@@ -2549,15 +2562,17 @@
 				document.onmousewheel !== undefined ? 'mousewheel' : // Webkit and IE support at least "mousewheel"
 					'DOMMouseScroll'; // let's assume that remaining browsers are older Firefox
 
+			var passiveEventArg = UsePassiveEventObject ? {passive: false} : false;
 
 			if (support == 'DOMMouseScroll') {
-				document[_addEventListener](prefix + 'MozMousePixelScroll', MouseWheelHandler, false);
+				document[_addEventListener](prefix + 'MozMousePixelScroll', MouseWheelHandler, passiveEventArg);
 			}
 
 			//handle MozMousePixelScroll in older Firefox
 			else {
-				document[_addEventListener](prefix + support, MouseWheelHandler, false);
+				document[_addEventListener](prefix + support, MouseWheelHandler, passiveEventArg);
 			}
+
 		}
 
         /**
